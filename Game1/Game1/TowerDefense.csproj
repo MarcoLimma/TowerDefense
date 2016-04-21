@@ -54,6 +54,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Game1.cs" />
+    <Compile Include="Lib\EnumGameState.cs" />
+    <Compile Include="Lib\Graphics\GameGraphics.cs" />
+    <Compile Include="Lib\Input\InputConfiguration.cs" />
+    <Compile Include="Lib\Input\InputManager.cs" />
+    <Compile Include="Lib\Input\MouseButton.cs" />
+    <Compile Include="Lib\Scene\Prototype.cs" />
+    <Compile Include="Lib\Scene\Scene.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -1,6 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
+using TowerDefense.Lib;
+using TowerDefense.Lib.Scene;
 
 namespace TowerDefense
 {
@@ -11,6 +14,16 @@ namespace TowerDefense
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+
+        private GameState _state;
+
+        public GameState State
+        {
+            get { return _state; }
+            set { ChangeState(value); }
+        }
+
+        public Dictionary<GameState, Scene> Scenes { get; set; }
 
         public Game1()
         {
@@ -28,6 +41,9 @@ namespace TowerDefense
         {
             // TODO: Add your initialization logic here
 
+            Scenes = new Dictionary<GameState, Scene>();
+
+
             base.Initialize();
         }
 
@@ -39,6 +55,10 @@ namespace TowerDefense
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            Scenes[GameState.Prototype] = new Prototype(this);
+
+            State = GameState.Prototype;
 
             // TODO: use this.Content to load your game content here
         }
@@ -62,6 +82,9 @@ namespace TowerDefense
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            if (Scenes.ContainsKey(State))
+                Scenes[State].UpdateKeyboardInput();
+
             // TODO: Add your update logic here
 
             base.Update(gameTime);
@@ -75,9 +98,25 @@ namespace TowerDefense
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
+
+            if (Scenes.ContainsKey(State))
+            {
+                Scenes[State].Draw(gameTime);
+            }
+
+
             // TODO: Add your drawing code here
 
             base.Draw(gameTime);
+        }
+
+        private void ChangeState(GameState value)
+        {
+            if (Scenes.ContainsKey(value))
+            {
+                _state = value;
+                Scenes[value].Load();
+            }
         }
     }
 }
