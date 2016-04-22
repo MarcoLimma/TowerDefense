@@ -10,7 +10,7 @@ namespace TowerDefense
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
-    public class Game1 : Game
+    public class TowerDefenseGame : Game
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
@@ -25,7 +25,7 @@ namespace TowerDefense
 
         public Dictionary<GameState, Scene> Scenes { get; set; }
 
-        public Game1()
+        public TowerDefenseGame()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
@@ -98,13 +98,11 @@ namespace TowerDefense
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-
             if (Scenes.ContainsKey(State))
             {
                 Scenes[State].Draw(gameTime);
             }
-
-
+            
             // TODO: Add your drawing code here
 
             base.Draw(gameTime);

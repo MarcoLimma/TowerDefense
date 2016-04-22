@@ -53,7 +53,7 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Game1.cs" />
+    <Compile Include="TowerDefenseGame.cs" />
     <Compile Include="Lib\EnumGameState.cs" />
     <Compile Include="Lib\Graphics\GameGraphics.cs" />
     <Compile Include="Lib\Input\InputConfiguration.cs" />
