@@ -58,10 +58,13 @@ namespace TowerDefense
             // TODO: Add your initialization logic here
             Scenes = new Dictionary<GameState, Scene>();
             Scenes[GameState.MainMenu] = new MainMenuScene(this);
-            Scenes[GameState.Prototype] = new Prototype(this);
+            //Scenes[GameState.Prototype] = new Prototype(this);
 
-            State = GameState.MainMenu;
-            
+            //State = GameState.MainMenu;
+
+            Scenes[GameState.Prototype] = new SussumuScene(this);
+            State = GameState.Prototype;
+
             base.Initialize();
         }
 

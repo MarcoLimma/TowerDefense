@@ -12,15 +12,23 @@ namespace TowerDefense.Lib.Graphics
         #region Scene backgrounds
         
         public static Texture2D MainMenu { get; set; }
-        
+
         #endregion
-        
+
+        #region GameObjects Sprites
+
+        public static Texture2D SimpleTower { get; set; }
+
+        #endregion
+
         #region Buttons 
 
         public static Texture2D CharacterHpBar { get; set; }
         public static Texture2D CharacterHpBarBg { get; set; }
 
         #endregion
+
+        #region Etc
         public static Texture2D MouseClick { get; set; }
         public static Texture2D TargetCircle { get; set; }
         public static Texture2D BigCircle { get; set; }
@@ -62,6 +70,7 @@ namespace TowerDefense.Lib.Graphics
         public static Texture2D GameOverMenu2 { get; set; }
         public static Texture2D Ship2 { get; set; }
         public static SoundEffect SoundSelect { get; set; }
+        #endregion
 
         public static void Load(ContentManager content)
         {
@@ -72,6 +81,8 @@ namespace TowerDefense.Lib.Graphics
             //SelectedItemTexture = content.Load<Texture2D>("Textures/selectedItemTexture");
 
             MainMenu = content.Load<Texture2D>("Scene Backgrounds/Main Menu Background");
+
+            SimpleTower = content.Load<Texture2D>("Objects/Simple Tower");
 
             //CollisionRadius = content.Load<Texture2D>("Circle 400px");
         }

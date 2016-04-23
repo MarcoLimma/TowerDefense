@@ -53,7 +53,10 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Lib\Objects\GameObject.cs" />
+    <Compile Include="Lib\Objects\SimpleTower.cs" />
     <Compile Include="Lib\Scene\MainMenuScene.cs" />
+    <Compile Include="Lib\Scene\SussumuScene.cs" />
     <Compile Include="TowerDefenseGame.cs" />
     <Compile Include="Lib\EnumGameState.cs" />
     <Compile Include="Lib\Graphics\GameGraphics.cs" />
