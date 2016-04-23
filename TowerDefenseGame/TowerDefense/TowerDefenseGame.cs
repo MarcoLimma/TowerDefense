@@ -5,6 +5,9 @@ using System.Collections.Generic;
 using TowerDefense.Lib;
 using TowerDefense.Lib.Graphics;
 using TowerDefense.Lib.Scene;
+using Color = Microsoft.Xna.Framework.Color;
+using Rectangle = Microsoft.Xna.Framework.Rectangle;
+using Size = System.Drawing.Size;
 
 namespace TowerDefense
 {
@@ -15,6 +18,10 @@ namespace TowerDefense
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        RenderTarget2D renderTarget;
+        Texture2D shadowMap;
+
+        public Size Size { get; set; }
 
         private GameState _state;
 
@@ -31,6 +38,10 @@ namespace TowerDefense
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
 
+            Size = new Size(1600, 900);
+
+            graphics.PreferredBackBufferWidth = Size.Width;
+            graphics.PreferredBackBufferHeight = Size.Height;
 
             IsMouseVisible = true;
             IsFixedTimeStep = true;
@@ -64,7 +75,9 @@ namespace TowerDefense
             spriteBatch = new SpriteBatch(GraphicsDevice);
             
             GameGraphics.Load(Content);
-            
+            PresentationParameters pp = GraphicsDevice.PresentationParameters;
+            renderTarget = new RenderTarget2D(GraphicsDevice, pp.BackBufferWidth, pp.BackBufferHeight, true, GraphicsDevice.DisplayMode.Format, DepthFormat.Depth24);
+
 
             // TODO: use this.Content to load your game content here
         }
@@ -102,14 +115,24 @@ namespace TowerDefense
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
-
+            GraphicsDevice.SetRenderTarget(renderTarget);
+            
             if (Scenes.ContainsKey(State))
             {
                 Scenes[State].Draw(gameTime);
             }
-            
-            // TODO: Add your drawing code here
+
+            GraphicsDevice.SetRenderTarget(null);
+            shadowMap = (Texture2D)renderTarget;
+
+            GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.DarkSlateBlue, 1.0f, 0);
+
+            using (var sprite = new SpriteBatch(GraphicsDevice))
+            {
+                sprite.Begin();
+                sprite.Draw(shadowMap, new Rectangle(0, 0, Size.Width, Size.Height), Color.White);
+                sprite.End();
+            }
 
             base.Draw(gameTime);
         }
