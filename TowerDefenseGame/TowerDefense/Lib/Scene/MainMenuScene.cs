@@ -5,12 +5,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace TowerDefense.Lib.Scene
 {
-    class Prototype : Scene
+    public class MainMenuScene : Scene
     {
-            private bool play = false;
-
-            private Rectangle playButton = new Rectangle(290, 400, 220, 64);
-            public Prototype(Game game)
+            public MainMenuScene(Game game)
             {
                 Game = game;
                 spriteBatch = new SpriteBatch(Game.GraphicsDevice);
@@ -45,25 +42,15 @@ namespace TowerDefense.Lib.Scene
 
             public override void Update(GameTime gameTime)
             {
-                play = playButton.Contains(InputManager.MousePositionPoint);
+                
             }
 
             public override void Draw(GameTime gameTime)
             {
                 spriteBatch.Begin();
-                if (play)
-                {
-                    spriteBatch.Draw(GameGraphics.Menu2, Game.GraphicsDevice.Viewport.Bounds, Color.White);
-                }
-                else
-                {
-                    spriteBatch.Draw(GameGraphics.Menu1, Game.GraphicsDevice.Viewport.Bounds, Color.White);
-                }
 
-                //mainMenu.Draw(spriteBatch);
-
-                //spriteBatch.Draw(GameGraphics.SelectedItemTexture, playButton, Color.White);
-
+                spriteBatch.Draw(GameGraphics.MainMenu, Game.GraphicsDevice.Viewport.Bounds, Color.White);
+                
                 spriteBatch.End();
             }
 

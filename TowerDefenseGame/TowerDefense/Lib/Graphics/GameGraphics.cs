@@ -70,9 +70,10 @@ namespace TowerDefense.Lib.Graphics
             //ButtonHover = content.Load<Texture2D>("Images/Button_hover");
             //ButtonPressed = content.Load<Texture2D>("Images/Button_pressed");
             //SelectedItemTexture = content.Load<Texture2D>("Textures/selectedItemTexture");
-            //MainMenu = content.Load<Texture2D>("Textures/Windows/Main Menu");
 
-            CollisionRadius = content.Load<Texture2D>("Circle 400px");
+            MainMenu = content.Load<Texture2D>("Scene Backgrounds/Main Menu Background");
+
+            //CollisionRadius = content.Load<Texture2D>("Circle 400px");
         }
     }
 }

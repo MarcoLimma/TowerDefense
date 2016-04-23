@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 using TowerDefense.Lib;
+using TowerDefense.Lib.Graphics;
 using TowerDefense.Lib.Scene;
 
 namespace TowerDefense
@@ -29,6 +30,10 @@ namespace TowerDefense
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+
+
+            IsMouseVisible = true;
+            IsFixedTimeStep = true;
         }
 
         /// <summary>
@@ -40,10 +45,12 @@ namespace TowerDefense
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
             Scenes = new Dictionary<GameState, Scene>();
+            Scenes[GameState.MainMenu] = new MainMenuScene(this);
+            Scenes[GameState.Prototype] = new Prototype(this);
 
-
+            State = GameState.MainMenu;
+            
             base.Initialize();
         }
 
@@ -55,10 +62,9 @@ namespace TowerDefense
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            Scenes[GameState.Prototype] = new Prototype(this);
-
-            State = GameState.Prototype;
+            
+            GameGraphics.Load(Content);
+            
 
             // TODO: use this.Content to load your game content here
         }
