@@ -5,12 +5,12 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace TowerDefense.Lib.Scene
 {
-    class PrototypeTower : Scene
+    class Prototype : Scene
     {
             private bool play = false;
 
             private Rectangle playButton = new Rectangle(290, 400, 220, 64);
-            public PrototypeTower(Game game)
+            public Prototype(Game game)
             {
                 Game = game;
                 spriteBatch = new SpriteBatch(Game.GraphicsDevice);
