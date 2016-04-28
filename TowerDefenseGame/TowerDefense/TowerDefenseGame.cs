@@ -3,17 +3,25 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 using TowerDefense.Lib;
+using TowerDefense.Lib.Graphics;
 using TowerDefense.Lib.Scene;
+using Color = Microsoft.Xna.Framework.Color;
+using Rectangle = Microsoft.Xna.Framework.Rectangle;
+using Size = System.Drawing.Size;
 
 namespace TowerDefense
 {
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
-    public class Game1 : Game
+    public class TowerDefenseGame : Game
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        RenderTarget2D renderTarget;
+        Texture2D shadowMap;
+
+        public Size Size { get; set; }
 
         private GameState _state;
 
@@ -25,10 +33,18 @@ namespace TowerDefense
 
         public Dictionary<GameState, Scene> Scenes { get; set; }
 
-        public Game1()
+        public TowerDefenseGame()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+
+            Size = new Size(1600, 900);
+
+            graphics.PreferredBackBufferWidth = Size.Width;
+            graphics.PreferredBackBufferHeight = Size.Height;
+
+            IsMouseVisible = true;
+            IsFixedTimeStep = true;
         }
 
         /// <summary>
@@ -40,9 +56,14 @@ namespace TowerDefense
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
             Scenes = new Dictionary<GameState, Scene>();
+            Scenes[GameState.MainMenu] = new MainMenuScene(this);
+            //Scenes[GameState.Prototype] = new Prototype(this);
 
+            //State = GameState.MainMenu;
+
+            Scenes[GameState.Prototype] = new SussumuScene(this);
+            State = GameState.Prototype;
 
             base.Initialize();
         }
@@ -55,10 +76,11 @@ namespace TowerDefense
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            
+            GameGraphics.Load(Content);
+            PresentationParameters pp = GraphicsDevice.PresentationParameters;
+            renderTarget = new RenderTarget2D(GraphicsDevice, pp.BackBufferWidth, pp.BackBufferHeight, true, GraphicsDevice.DisplayMode.Format, DepthFormat.Depth24);
 
-            Scenes[GameState.Prototype] = new Prototype(this);
-
-            State = GameState.Prototype;
 
             // TODO: use this.Content to load your game content here
         }
@@ -96,16 +118,24 @@ namespace TowerDefense
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
-
-
+            GraphicsDevice.SetRenderTarget(renderTarget);
+            
             if (Scenes.ContainsKey(State))
             {
                 Scenes[State].Draw(gameTime);
             }
 
+            GraphicsDevice.SetRenderTarget(null);
+            shadowMap = (Texture2D)renderTarget;
 
-            // TODO: Add your drawing code here
+            GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.DarkSlateBlue, 1.0f, 0);
+
+            using (var sprite = new SpriteBatch(GraphicsDevice))
+            {
+                sprite.Begin();
+                sprite.Draw(shadowMap, new Rectangle(0, 0, Size.Width, Size.Height), Color.White);
+                sprite.End();
+            }
 
             base.Draw(gameTime);
         }

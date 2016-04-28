@@ -9,8 +9,8 @@
     <ProjectGuid>{6CD7A7BC-309D-4DA6-A8CB-2997E371D3FE}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Game1</RootNamespace>
-    <AssemblyName>Game1</AssemblyName>
+    <RootNamespace>TowerDefense</RootNamespace>
+    <AssemblyName>TowerDefense</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MonoGamePlatform>DesktopGL</MonoGamePlatform>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
@@ -53,7 +53,11 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Game1.cs" />
+    <Compile Include="Lib\Objects\GameObject.cs" />
+    <Compile Include="Lib\Objects\SimpleTower.cs" />
+    <Compile Include="Lib\Scene\MainMenuScene.cs" />
+    <Compile Include="Lib\Scene\SussumuScene.cs" />
+    <Compile Include="TowerDefenseGame.cs" />
     <Compile Include="Lib\EnumGameState.cs" />
     <Compile Include="Lib\Graphics\GameGraphics.cs" />
     <Compile Include="Lib\Input\InputConfiguration.cs" />
@@ -75,6 +79,7 @@
       <HintPath>$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\MonoGame.Framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
@@ -97,6 +102,9 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Content\Scene Backgrounds\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
