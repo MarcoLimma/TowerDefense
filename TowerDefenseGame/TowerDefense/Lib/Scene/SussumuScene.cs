@@ -17,6 +17,7 @@ namespace TowerDefense.Lib.Scene
 
             gameObjects = new List<GameObject>();
             gameObjects.Add(new SimpleTower());
+
         }
 
         public override void Draw(GameTime gameTime)

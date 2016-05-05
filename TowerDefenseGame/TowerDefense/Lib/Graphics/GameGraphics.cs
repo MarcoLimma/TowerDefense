@@ -19,6 +19,8 @@ namespace TowerDefense.Lib.Graphics
 
         public static Texture2D SimpleTower { get; set; }
 
+        public static Texture2D Range { get; set; }
+
         #endregion
 
         #region Buttons 
@@ -83,6 +85,8 @@ namespace TowerDefense.Lib.Graphics
             MainMenu = content.Load<Texture2D>("Scene Backgrounds/Main Menu Background");
 
             SimpleTower = content.Load<Texture2D>("Objects/Simple Tower");
+
+            Range = content.Load<Texture2D>("Objects/Range");
 
             //CollisionRadius = content.Load<Texture2D>("Circle 400px");
         }

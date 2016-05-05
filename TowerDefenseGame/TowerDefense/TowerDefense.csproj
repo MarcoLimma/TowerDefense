@@ -54,6 +54,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Lib\Objects\GameObject.cs" />
+    <Compile Include="Lib\Objects\Range.cs" />
     <Compile Include="Lib\Objects\SimpleTower.cs" />
     <Compile Include="Lib\Scene\MainMenuScene.cs" />
     <Compile Include="Lib\Scene\SussumuScene.cs" />
