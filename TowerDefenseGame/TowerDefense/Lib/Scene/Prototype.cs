@@ -21,7 +21,7 @@ namespace TowerDefense.Lib.Scene
 
         Tile[,] map;
 
-        TestLevel level1 = new TestLevel();
+        TestLevel level1 = new TestLevel(30, 17);
 
         public MouseState MouseLastState { get; private set; }
 
@@ -44,6 +44,7 @@ namespace TowerDefense.Lib.Scene
 
             level1.AddTexture(grass);
             level1.AddTexture(path);
+
         }
 
         public override void Update(GameTime gameTime)
@@ -74,6 +75,7 @@ namespace TowerDefense.Lib.Scene
             spriteBatch.Begin();
 
             level1.Draw(spriteBatch);
+            
 
             foreach (var a in coisas)
             {
