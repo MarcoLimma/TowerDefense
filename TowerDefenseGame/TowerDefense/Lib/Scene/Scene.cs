@@ -12,6 +12,7 @@ namespace TowerDefense.Lib.Scene
         public abstract void Draw(GameTime gameTime);
         public abstract void Update(GameTime gameTime);
 
+
         public virtual void MouseDrag(MouseButton button)
         {
         }

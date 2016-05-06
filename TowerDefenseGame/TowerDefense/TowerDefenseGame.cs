@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 using TowerDefense.Lib;
 using TowerDefense.Lib.Graphics;
+using TowerDefense.Lib.Objects;
 using TowerDefense.Lib.Scene;
 using Color = Microsoft.Xna.Framework.Color;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
@@ -20,6 +21,8 @@ namespace TowerDefense
         SpriteBatch spriteBatch;
         RenderTarget2D renderTarget;
         Texture2D shadowMap;
+
+        TestLevel level1 = new TestLevel();
 
         public Size Size { get; set; }
 
@@ -45,6 +48,7 @@ namespace TowerDefense
 
             IsMouseVisible = true;
             IsFixedTimeStep = true;
+
         }
 
         /// <summary>
@@ -78,6 +82,14 @@ namespace TowerDefense
             spriteBatch = new SpriteBatch(GraphicsDevice);
             
             GameGraphics.Load(Content);
+
+
+            Texture2D grass = GameGraphics.Grama;
+            Texture2D path = GameGraphics.Terra;
+
+            level1.AddTexture(grass);
+            level1.AddTexture(path);
+
             PresentationParameters pp = GraphicsDevice.PresentationParameters;
             renderTarget = new RenderTarget2D(GraphicsDevice, pp.BackBufferWidth, pp.BackBufferHeight, true, GraphicsDevice.DisplayMode.Format, DepthFormat.Depth24);
 
@@ -119,12 +131,9 @@ namespace TowerDefense
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.SetRenderTarget(renderTarget);
-            
-            if (Scenes.ContainsKey(State))
-            {
-                Scenes[State].Draw(gameTime);
-                Scenes[State].Update(gameTime);
-            }
+
+          
+
 
             GraphicsDevice.SetRenderTarget(null);
             shadowMap = (Texture2D)renderTarget;
@@ -134,8 +143,17 @@ namespace TowerDefense
             using (var sprite = new SpriteBatch(GraphicsDevice))
             {
                 sprite.Begin();
+
                 sprite.Draw(shadowMap, new Rectangle(0, 0, Size.Width, Size.Height), Color.White);
+                level1.Draw(sprite);
                 sprite.End();
+            }
+
+
+            if (Scenes.ContainsKey(State))
+            {
+                Scenes[State].Draw(gameTime);
+                Scenes[State].Update(gameTime);
             }
 
             base.Draw(gameTime);

@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 using TowerDefense.Lib.Objects;
+using Microsoft.Xna.Framework.Content;
 
 namespace TowerDefense.Lib.Scene
 {
@@ -18,6 +19,10 @@ namespace TowerDefense.Lib.Scene
 
         List<GameObject> coisas;
 
+        Tile[,] map;
+
+      
+
         public MouseState MouseLastState { get; private set; }
 
         public Prototype(Game game)
@@ -28,11 +33,14 @@ namespace TowerDefense.Lib.Scene
             mouseState = Mouse.GetState();
 
             coisas = new List<GameObject>();
-        }
 
+
+        }
 
         public override void Update(GameTime gameTime)
         {
+
+
             mouseState = Mouse.GetState();
 
             if (mouseState.LeftButton == ButtonState.Pressed && MouseLastState.LeftButton == ButtonState.Released)

@@ -72,6 +72,9 @@ namespace TowerDefense.Lib.Graphics
         public static Texture2D GameOverMenu2 { get; set; }
         public static Texture2D Ship2 { get; set; }
         public static SoundEffect SoundSelect { get; set; }
+        public static Texture2D Terra { get; private set; }
+        public static Texture2D Grama { get; private set; }
+
         #endregion
 
         public static void Load(ContentManager content)
@@ -88,7 +91,10 @@ namespace TowerDefense.Lib.Graphics
 
             Range = content.Load<Texture2D>("Objects/Range");
 
-            //CollisionRadius = content.Load<Texture2D>("Circle 400px");
+            Terra = content.Load<Texture2D>("Objects/terra");
+
+            Grama = content.Load<Texture2D>("Objects/grama");
+
         }
     }
 }
