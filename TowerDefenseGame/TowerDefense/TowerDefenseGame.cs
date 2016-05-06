@@ -62,7 +62,7 @@ namespace TowerDefense
 
             //State = GameState.MainMenu;
 
-            Scenes[GameState.Prototype] = new SussumuScene(this);
+            Scenes[GameState.Prototype] = new Prototype(this);
             State = GameState.Prototype;
 
             base.Initialize();
@@ -123,6 +123,7 @@ namespace TowerDefense
             if (Scenes.ContainsKey(State))
             {
                 Scenes[State].Draw(gameTime);
+                Scenes[State].Update(gameTime);
             }
 
             GraphicsDevice.SetRenderTarget(null);
