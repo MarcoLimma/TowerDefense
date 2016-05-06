@@ -20,9 +20,20 @@ namespace TowerDefense
         SpriteBatch spriteBatch;
         RenderTarget2D renderTarget;
         Texture2D shadowMap;
+        
+        public static Size WindowSize;
+        public static Size NativeResolution = new Size(1920, 1080);
 
-        public Size Size { get; set; }
+        public static Rectangle WindowBounds
+        {
+            get { return new Rectangle(0, 0, WindowSize.Width, WindowSize.Height); }
+        }
 
+        public static Rectangle NativeResolutionBounds
+        {
+            get { return new Rectangle(0, 0, NativeResolution.Width, NativeResolution.Height); }
+        }
+        
         private GameState _state;
 
         public GameState State
@@ -38,13 +49,19 @@ namespace TowerDefense
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
 
-            Size = new Size(1600, 900);
+            WindowSize = new Size(1366, 768);
 
-            graphics.PreferredBackBufferWidth = Size.Width;
-            graphics.PreferredBackBufferHeight = Size.Height;
+            SetResolution(WindowSize.Width, WindowSize.Height);
 
             IsMouseVisible = true;
             IsFixedTimeStep = true;
+        }
+
+        private void SetResolution(int width, int height)
+        {
+            graphics.PreferredBackBufferWidth = width;
+            graphics.PreferredBackBufferHeight = height;
+            graphics.ApplyChanges();
         }
 
         /// <summary>
@@ -58,12 +75,11 @@ namespace TowerDefense
             // TODO: Add your initialization logic here
             Scenes = new Dictionary<GameState, Scene>();
             Scenes[GameState.MainMenu] = new MainMenuScene(this);
-            //Scenes[GameState.Prototype] = new Prototype(this);
-
-            //State = GameState.MainMenu;
-
             Scenes[GameState.Prototype] = new Prototype(this);
-            State = GameState.Prototype;
+
+            State = GameState.MainMenu;
+            
+            //State = GameState.Prototype;
 
             base.Initialize();
         }
@@ -134,7 +150,7 @@ namespace TowerDefense
             using (var sprite = new SpriteBatch(GraphicsDevice))
             {
                 sprite.Begin();
-                sprite.Draw(shadowMap, new Rectangle(0, 0, Size.Width, Size.Height), Color.White);
+                sprite.Draw(shadowMap, new Rectangle(0, 0, WindowSize.Width, WindowSize.Height), Color.White);
                 sprite.End();
             }
 
