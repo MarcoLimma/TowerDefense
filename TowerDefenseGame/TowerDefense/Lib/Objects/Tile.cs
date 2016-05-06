@@ -17,8 +17,6 @@ namespace TowerDefense.Lib.Scene
         {
         }
 
-        
-
     }
 
     enum TileType

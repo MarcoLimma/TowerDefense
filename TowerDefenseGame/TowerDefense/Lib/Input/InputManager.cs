@@ -6,14 +6,20 @@ namespace TowerDefense.Lib.Input
 {
     public static class InputManager
     {
-        public static Vector2 MousePosition
+                public static Vector2 MousePosition
         {
-            get { return new Vector2(MouseState.X, MouseState.Y); }
+            get
+            {
+                var x = (float)TowerDefenseGame.NativeResolution.Width / (float)  TowerDefenseGame.WindowSize.Width;
+                var y = (float)TowerDefenseGame.NativeResolution.Height / (float)TowerDefenseGame.WindowSize.Height;
+
+                return new Vector2(MouseState.X * x, MouseState.Y * y);
+            }
         }
 
         public static Point MousePositionPoint
         {
-            get { return new Point(MouseState.X, MouseState.Y); }
+            get { return new Point((int)MousePosition.X, (int)MousePosition.Y); }
         }
 
         public static MouseState MouseState { get; set; }

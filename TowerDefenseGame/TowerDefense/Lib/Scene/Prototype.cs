@@ -21,25 +21,33 @@ namespace TowerDefense.Lib.Scene
 
         Tile[,] map;
 
-      
+        TestLevel level1 = new TestLevel();
 
         public MouseState MouseLastState { get; private set; }
 
         public Prototype(Game game)
         {
             Game = game;
+
             spriteBatch = new SpriteBatch(Game.GraphicsDevice);
 
             mouseState = Mouse.GetState();
 
             coisas = new List<GameObject>();
 
+        }
 
+        public override void Load()
+        {
+            Texture2D grass = GameGraphics.Grama;
+            Texture2D path = GameGraphics.Terra;
+
+            level1.AddTexture(grass);
+            level1.AddTexture(path);
         }
 
         public override void Update(GameTime gameTime)
         {
-
 
             mouseState = Mouse.GetState();
 
@@ -47,7 +55,16 @@ namespace TowerDefense.Lib.Scene
             {
                 click = true;
             }
-            
+
+
+            if (click)
+            {
+                coisas.Add(new SimpleTower() { Position = InputManager.MousePosition });
+
+                click = false;
+            }
+
+
             MouseLastState = mouseState;
 
         }
@@ -56,12 +73,7 @@ namespace TowerDefense.Lib.Scene
         {
             spriteBatch.Begin();
 
-            if (click)
-            {
-                coisas.Add(new SimpleTower() { Position = new Vector2(mouseState.X, mouseState.Y) });
-
-                click = false;
-            }
+            level1.Draw(spriteBatch);
 
             foreach (var a in coisas)
             {

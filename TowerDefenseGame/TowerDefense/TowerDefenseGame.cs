@@ -4,6 +4,8 @@ using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 using TowerDefense.Lib;
 using TowerDefense.Lib.Graphics;
+using TowerDefense.Lib.Input;
+using TowerDefense.Lib.Objects;
 using TowerDefense.Lib.Scene;
 using Color = Microsoft.Xna.Framework.Color;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
@@ -20,7 +22,9 @@ namespace TowerDefense
         SpriteBatch spriteBatch;
         RenderTarget2D renderTarget;
         Texture2D shadowMap;
-        
+
+
+
         public static Size WindowSize;
         public static Size NativeResolution = new Size(1920, 1080);
 
@@ -78,8 +82,6 @@ namespace TowerDefense
             Scenes[GameState.MainMenu] = new MainMenuScene(this);
             Scenes[GameState.Prototype] = new Prototype(this);
 
-            State = GameState.MainMenu;
-            
             //State = GameState.Prototype;
 
             base.Initialize();
@@ -96,15 +98,10 @@ namespace TowerDefense
             
             GameGraphics.Load(Content);
 
-
-            Texture2D grass = GameGraphics.Grama;
-            Texture2D path = GameGraphics.Terra;
-
-            level1.AddTexture(grass);
-            level1.AddTexture(path);
+            State = GameState.Prototype;
 
             PresentationParameters pp = GraphicsDevice.PresentationParameters;
-            renderTarget = new RenderTarget2D(GraphicsDevice, pp.BackBufferWidth, pp.BackBufferHeight, true, GraphicsDevice.DisplayMode.Format, DepthFormat.Depth24);
+            renderTarget = new RenderTarget2D(GraphicsDevice, NativeResolution.Width, NativeResolution.Height, true, GraphicsDevice.DisplayMode.Format, DepthFormat.Depth24);
 
 
             // TODO: use this.Content to load your game content here
@@ -179,9 +176,12 @@ namespace TowerDefense
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.SetRenderTarget(renderTarget);
-
-          
-
+            
+            if (Scenes.ContainsKey(State))
+            {
+                Scenes[State].Draw(gameTime);
+                Scenes[State].Update(gameTime);
+            }
 
             GraphicsDevice.SetRenderTarget(null);
             shadowMap = (Texture2D)renderTarget;
@@ -191,18 +191,10 @@ namespace TowerDefense
             using (var sprite = new SpriteBatch(GraphicsDevice))
             {
                 sprite.Begin();
-
-                sprite.Draw(shadowMap, new Rectangle(0, 0, Size.Width, Size.Height), Color.White);
-                level1.Draw(sprite);
+                sprite.Draw(shadowMap, new Rectangle(0, 0, WindowSize.Width, WindowSize.Height), Color.White);
+               
                 sprite.End();
-            }
-
-
-            if (Scenes.ContainsKey(State))
-            {
-                Scenes[State].Draw(gameTime);
-                Scenes[State].Update(gameTime);
-            }
+            }            
 
             base.Draw(gameTime);
         }
