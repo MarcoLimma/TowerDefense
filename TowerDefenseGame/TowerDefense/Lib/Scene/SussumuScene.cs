@@ -23,9 +23,9 @@ namespace TowerDefense.Lib.Scene
         public override void Draw(GameTime gameTime)
         {
             spriteBatch.Begin();
-            foreach (var gameObject in gameObjects)
+            for (int i = 0; i < gameObjects.Count; i++)
             {
-                gameObject.Draw(spriteBatch);
+                gameObjects[i].Draw(spriteBatch);
             }
             spriteBatch.End();
         }

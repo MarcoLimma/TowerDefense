@@ -12,6 +12,15 @@ namespace TowerDefense.Lib.Scene
         public abstract void Draw(GameTime gameTime);
         public abstract void Update(GameTime gameTime);
 
+        
+
+        public virtual void UpdateKeyboardInput()
+        {
+        }
+
+        public virtual void UpdateMouseInput()
+        {
+        }
 
         public virtual void MouseDrag(MouseButton button)
         {
@@ -22,14 +31,6 @@ namespace TowerDefense.Lib.Scene
         }
 
         public virtual void MouseDoubleClick(MouseButton button)
-        {
-        }
-
-        public virtual void UpdateKeyboardInput()
-        {
-        }
-
-        public virtual void UpdateMouseInput()
         {
         }
 

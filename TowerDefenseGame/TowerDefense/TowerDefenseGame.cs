@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 using TowerDefense.Lib;
 using TowerDefense.Lib.Graphics;
-using TowerDefense.Lib.Objects;
 using TowerDefense.Lib.Scene;
 using Color = Microsoft.Xna.Framework.Color;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
@@ -21,11 +20,20 @@ namespace TowerDefense
         SpriteBatch spriteBatch;
         RenderTarget2D renderTarget;
         Texture2D shadowMap;
+        
+        public static Size WindowSize;
+        public static Size NativeResolution = new Size(1920, 1080);
 
-        TestLevel level1 = new TestLevel();
+        public static Rectangle WindowBounds
+        {
+            get { return new Rectangle(0, 0, WindowSize.Width, WindowSize.Height); }
+        }
 
-        public Size Size { get; set; }
-
+        public static Rectangle NativeResolutionBounds
+        {
+            get { return new Rectangle(0, 0, NativeResolution.Width, NativeResolution.Height); }
+        }
+        
         private GameState _state;
 
         public GameState State
@@ -41,14 +49,20 @@ namespace TowerDefense
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
 
-            Size = new Size(1600, 900);
+            WindowSize = new Size(1366, 768);
 
-            graphics.PreferredBackBufferWidth = Size.Width;
-            graphics.PreferredBackBufferHeight = Size.Height;
+            SetResolution(WindowSize.Width, WindowSize.Height);
 
             IsMouseVisible = true;
             IsFixedTimeStep = true;
 
+        }
+
+        private void SetResolution(int width, int height)
+        {
+            graphics.PreferredBackBufferWidth = width;
+            graphics.PreferredBackBufferHeight = height;
+            graphics.ApplyChanges();
         }
 
         /// <summary>
@@ -62,12 +76,11 @@ namespace TowerDefense
             // TODO: Add your initialization logic here
             Scenes = new Dictionary<GameState, Scene>();
             Scenes[GameState.MainMenu] = new MainMenuScene(this);
-            //Scenes[GameState.Prototype] = new Prototype(this);
-
-            //State = GameState.MainMenu;
-
             Scenes[GameState.Prototype] = new Prototype(this);
-            State = GameState.Prototype;
+
+            State = GameState.MainMenu;
+            
+            //State = GameState.Prototype;
 
             base.Initialize();
         }
@@ -113,15 +126,50 @@ namespace TowerDefense
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
-
+            InputManager.MouseState = Mouse.GetState();
+            InputManager.KeyboardState = Keyboard.GetState();
+            
             if (Scenes.ContainsKey(State))
                 Scenes[State].UpdateKeyboardInput();
 
-            // TODO: Add your update logic here
+            // Verifica o estado 
+            if (IsActive)
+            {
+                if (InputManager.MouseState.LeftButton == ButtonState.Released && InputManager.LastMouseState.LeftButton == ButtonState.Pressed)
+                {
+                    MouseClick(MouseButton.Left);
+                }
+                else if (InputManager.MouseState.LeftButton == ButtonState.Pressed)
+                {
+                    MouseDown(MouseButton.Left);
+                }
+
+                if (InputManager.MouseState.RightButton == ButtonState.Released && InputManager.LastMouseState.RightButton == ButtonState.Pressed)
+                {
+                    MouseClick(MouseButton.Right);
+                }
+                else if (InputManager.MouseState.RightButton == ButtonState.Pressed)
+                {
+                    MouseDown(MouseButton.Right);
+                }
+
+                Scenes[State].Update(gameTime);
+            }
+
+            InputManager.LastKeyboardState = InputManager.KeyboardState;
+            InputManager.LastMouseState = InputManager.MouseState;
 
             base.Update(gameTime);
+        }
+
+        private void MouseDown(MouseButton mouseButton)
+        {
+            Scenes[State].MouseDown(mouseButton);
+        }
+
+        private void MouseClick(MouseButton mouseButton)
+        {
+            Scenes[State].MouseClick(mouseButton);
         }
 
         /// <summary>
@@ -159,6 +207,7 @@ namespace TowerDefense
             base.Draw(gameTime);
         }
 
+        // Use esse cara quando quiser mudar de um estado do jogo para o outro
         private void ChangeState(GameState value)
         {
             if (Scenes.ContainsKey(value))
